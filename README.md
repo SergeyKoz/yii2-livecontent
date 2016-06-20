@@ -1,25 +1,16 @@
 Live content extension for Yii 2
 =========================
 
-This extension provides easy editing of content for [Yii framework 2.0](http://www.yiiframework.com) applications.
-
-For license information check the [LICENSE](LICENSE.md)-file.
-
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-debug/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-debug)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-debug/downloads.png)](https://packagist.org/packages/yiisoft/yii2-debug)
-
+This extension provides easy way to do dynamic content of web application for [Yii framework 2.0](http://www.yiiframework.com) applications.
 
 Installation
 ------------
-
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
 Either run
 
 ```
-php composer.phar require --prefer-dist yiisoft/yii2-debug
+php composer.phar require --prefer-dist sergeykoz/yii2-livecontent
 ```
 
 or add
@@ -32,13 +23,13 @@ to the require section of your `composer.json` file.
 
 Updating database schema
 ------------------------
-After you downloaded and configured `rmrevin/yii2-comments`,
-the last thing you need to do is updating your database schema by applying the migrations:
+After you downloaded `sergeykoz/yii2-livecontent`,
+you need to do is updating your database schema by applying the migrations:
 
 In `command line`:
 ```
-php yii migrate/up --migrationPath=@vendor/rmrevin/yii2-comments/migrations/
-
+php yii migrate --migrationPath=@vendor/sergeykoz/yii2-livecontent/migrations
+```
 Configuration
 -----
 
@@ -48,12 +39,10 @@ Once the extension is installed, simply modify your application configuration as
 return [
     'bootstrap' => ['livecontent'],
     'modules' => [
-        'modules' => [
         'livecontent' => [
             'class' => 'ssoft\livecontent\Module',
             //'accessRules' => [[
             //    'allow' => true,
-            //    'roles' => ['admin'],
             //    'verbs' => ['POST']
             //]],
             //'editorOptions' => [
@@ -64,8 +53,7 @@ return [
             //    'preset' => 'full'
             //]
         ],
-    ],
-        // ...
+        ...
     ],
     ...
 ];
@@ -76,21 +64,37 @@ Usage
 In view
 ```php
 <?php
-// ...
 
 use ssoft\livecontent\Content;
 
 ...
 
+/*
+You should replace parts of content which needs to be dynamic with calling of methods:
+Content::text
+Content::textarea
+Content::html
+Content::block
+
+This mehtods need two arguments except of Content::block.
+
+place -  uses for identification of the content place. You have to specify a unique key for current view file. You can insert language prefix for multilanguage applications.
+
+isAllow - a flag which allow to show edit element on the page. You can use different cases for the argument. For basic application a case which allow to change content only for logged user is !Yii::$app->user->isGuest. For applications based on RBAC access you can use \Yii::$app->user->can('admin')
+
+blockLogic - the argument uses just for Content::block method which consists HTML template and fields to the template.
+*/
+
+
 echo Content::text('text-id-'.\Yii::$app->language, !Yii::$app->user->isGuest);
 
 ...
 
-echo Content::textarea('textblock-id', !Yii::$app->user->isGuest);
+echo Content::textarea('textblock-id', !Yii::$app->user->isGuest); // allowed to logged user
 
 ...
 
-echo Content::html('formatted-text-id', \Yii::$app->user->can('admin'));
+echo Content::html('formatted-text-id', \Yii::$app->user->can('admin')); // allowed for RBAC role  admin
 
 ...
 
@@ -103,7 +107,7 @@ $block=[
     'rules'=> [
         'edit'=>['type'=>'editcontrol',],              
         'head' => ['name' => 'Title', 'type' => 'text', 'required' => true],
-        'description' => ['name' => 'Description', 'type' => 'html', 'required' => true],                             
+        'description' => ['name' => 'Description', 'type' => 'html', 'required' => true],
         'caption' => ['name' => 'Text', 'type'=>'text', 'required' => true],
         'link' => ['name' => 'Link','type'=>'text'],
         'show_link' => ['name' => 'Show a button','type'=>'checkbox', 'required' => true],
@@ -122,6 +126,5 @@ $block=[
         ],
     ]
 ];
-echo Content::block('block-id', \Yii::$app->user->can('admin'), $block);  
-
-```
+echo Content::block('block-id', !Yii::$app->user->isGuest, $block);  
+?>
