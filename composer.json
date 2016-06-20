@@ -1,5 +1,6 @@
 {
     "name": "sergeykoz/yii2-livecontent",
+    "version":"0.0.1",
     "description": "Easy editing of site content for the Yii framework",
     "keywords": ["yii2", "edit", "content"],
     "type": "yii2-extension",
@@ -15,14 +16,10 @@
         "yiisoft/yii2-bootstrap": "*",
         "2amigos/yii2-ckeditor-widget" : "~1.0"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "ssoft\\livecontent\\": ""
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0.x-dev"
         }
     }
 }
