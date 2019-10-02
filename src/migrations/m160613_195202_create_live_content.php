@@ -1,5 +1,7 @@
 <?php
 
+namespace ssoft\livecontent\migrations;
+
 use yii\db\Migration;
 
 /**
@@ -17,7 +19,7 @@ class m160613_195202_create_live_content extends Migration
             'place' => $this->string(255)->comment('ID place'),
             'type' => $this->string(255)->comment('Type of place'),
             'content' => $this->text()->comment('Content data'),
-            'modified_at' => $this->dateTime(),
+            'modified_at' => $this->integer()->defaultValue(0)->comment('Modifietd time'),
         ]);
     }
 

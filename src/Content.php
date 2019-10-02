@@ -61,7 +61,7 @@ class Content extends Widget {
 		if ($additional[0]!=''){
 			$key = self::GetKey($additional[0]);
 			$content = self::Get($key);
-			return self::IsEdit() && $additional[1] ? '<i class="edit-element glyphicon glyphicon-pencil" place=\''.$key.'\' content=\''.$name.'\'></i>'.$content : $content;
+			return self::IsEdit() && $additional[1] ? '<div><i class="edit-element glyphicon glyphicon-pencil" place=\''.$key.'\' content=\''.$name.'\'></i>' . $content . '</div>' : $content;
 		}
 	}
 

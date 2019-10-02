@@ -8,6 +8,7 @@
 namespace ssoft\livecontent\models;
 
 use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 class ContentData extends ActiveRecord {
 	/**
@@ -48,8 +49,24 @@ class ContentData extends ActiveRecord {
         ]);
     }
 
-	public function beforeSave($insert) {
-		$this->modified_at = new \yii\db\Expression('NOW()');
-		return parent::beforeSave($insert);
-	}
+//	public function beforeSave($insert) {
+//		$this->modified_at = new \yii\db\Expression('NOW()');
+//		return parent::beforeSave($insert);
+//	}
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['modified_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['modified_at'],
+                ],
+            ],
+        ];
+    }
 }

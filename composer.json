@@ -1,7 +1,7 @@
 {
     "name": "sergeykoz/yii2-livecontent",
-    "version":"0.0.1",
-    "description": "Easy editing of site content for the Yii framework",
+    "version":"0.1.0",
+    "description": "Easy editing site content for the Yii framework",
     "keywords": ["yii2", "edit", "content"],
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "ssoft\\livecontent\\": ""
+            "ssoft\\livecontent\\": "src"
         }
     }
 }

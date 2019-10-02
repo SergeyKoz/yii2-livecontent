@@ -1,6 +1,10 @@
-<?
+<?php
+
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
+
+$this->beginPage();
+$this->beginBody();
 
 $form = ActiveForm::begin([
    'options' => ['id'=>'content-edit-form', 'class' => 'form-horizontal', 'role' => 'form'],
@@ -11,18 +15,23 @@ $inputOptions = [
     'template' => "{label}\n<div class=\"col-sm-10\">{input}\n{hint}\n{error}</div>",
 ];
 ?>
+
 <?= $form->field($model, 'place')->hiddenInput()->label(false);?>
 <div id="editStatus" class="hide2 box-body"></div>
-<?= $form->field($model, 'content', $inputOptions)->textInput(['maxlength' => true]) ?>
+
+<?= $form->field($model, 'content', $inputOptions)->textarea(['maxlength' => true, 'style' =>'resize: vertical;']) ?>
 
 <?php ActiveForm::end(); ?>
+<?php $this->endBody() ?>
+<?php $this->endPage() ?>
 
 <script type="text/javascript">
+
    $("#content-edit-form").submit(function(event) {
       event.preventDefault();
       $("#content-edit-form #editStatus").hide();
       $.ajax({
-         url: '<?= Url::to(["/livecontent/editcontent/htmlsave"]) ?>',
+         url: '<?= Url::to(["/livecontent/editcontent/textareasave"]) ?>',
          type: 'POST',
          data: $("#content-edit-form").serialize(),
          dataType: 'JSON',         
@@ -41,7 +50,7 @@ $inputOptions = [
    });
 
    $(document).ready(function(){
-      $('#editContentDialog .modal-dialog').css({'width':700});
+      $('#editContentDialog .modal-dialog').css({'width':1000});
       $('<button/>', {
          id: 'content_save_button',
          class: 'btn btn-primary',

@@ -1,7 +1,7 @@
-<?
+<?php
+
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
-//use app\widgets\CKEditor;
 use dosamigos\ckeditor\CKEditor;
 
 $this->beginPage();
@@ -26,32 +26,32 @@ $inputOptions = [
 <?php $this->endPage() ?>
 
 <script type="text/javascript">
-   CKEDITOR.on('instanceReady', function(){      
-      CKEDITOR.instances['contentdata-content'].resize('100%', 300);        
+   CKEDITOR.on('instanceReady', function(){
+      CKEDITOR.instances['contentdata-content'].resize('100%', 300);
    })
 
    $("#content-edit-form").submit(function(event) {
-      event.preventDefault();      
+      event.preventDefault();
       $("#content-edit-form #editStatus").hide();
-      $("#contentdata-content").val(CKEDITOR.instances['contentdata-content'].getData());      
+      $("#contentdata-content").val(CKEDITOR.instances['contentdata-content'].getData());
       $.ajax({
          url: '<?= Url::to(["/livecontent/editcontent/htmlsave"]) ?>',
          type: 'POST',
          data: $("#content-edit-form").serialize(),
-         dataType: 'JSON',        
+         dataType: 'JSON',
          success: function(data) {
             $("#content-edit-form #editStatus").attr('class','alert alert-'+data.class).html(data.msg);
             $("#content-edit-form #editStatus").slideDown();
-            
+
             if(data.class == 'success') {
                $('i[place="<?= $model->place;?>"]').each(function(i){
                   var container = $(this).parent();
                   container.html(CKEDITOR.instances['contentdata-content'].getData());
-                  resetEdit($(this), container);                  
+                  resetEdit($(this), container);
                });
             }
          }
-      });      
+      });
    });
 
    $(document).ready(function(){
@@ -62,6 +62,6 @@ $inputOptions = [
          type: 'submit',
          form: 'content-edit-form',
          text: '<?= \Yii::t('app','Save');?>'
-      }).appendTo('#editContentDialogButtons');         
+      }).appendTo('#editContentDialogButtons');
    });
 </script>
