@@ -21,5 +21,15 @@
         "psr-4": {
             "ssoft\\livecontent\\": "src"
         }
+    },
+    "extra": {
+        "config-plugin": {            
+            "web": [
+                "src/config/web.php"
+            ],
+            "console": [
+                "src/config/console.php"
+            ]
+        }
     }
 }

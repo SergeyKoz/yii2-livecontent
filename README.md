@@ -1,7 +1,7 @@
 Live content extension for Yii 2
 =========================
 
-This extension provides easy way to do dynamic content of web application for [Yii framework 2.0](http://www.yiiframework.com) applications.
+This extension provides easy way to make dynamic content of web application for [Yii framework 2.0](http://www.yiiframework.com) applications.
 
 Installation
 ------------
@@ -16,7 +16,7 @@ composer require --prefer-dist sergeykoz/yii2-livecontent:0.0.1
 or add
 
 ```
-"sergeykoz/yii2-livecontent": "~0.0.1"
+"sergeykoz/yii2-livecontent": "~0.1.0"
 ```
 
 to the require section of your `composer.json` file.
@@ -28,8 +28,10 @@ you need to do is updating your database schema by applying the migrations:
 
 In `command line`:
 ```
-php yii migrate --migrationPath=@vendor/sergeykoz/yii2-livecontent/migrations
+php yii migrate --migrationPath=@vendor/sergeykoz/yii2-livecontent/src/migrations
 ```
+or configure `controllerMap` settings
+
 Configuration
 -----
 
@@ -50,12 +52,28 @@ return [
             //        'rows' => 6,
             //        'autoParagraph'=>false 
             //    ],
-            //    'preset' => 'full'
+            //    'preset' => 'full',
+            //    'autoParagraph' => true
             //]
         ],
         ...
     ],
     ...
+];
+```
+
+Config file `console.php`
+
+```php
+return [
+    'controllerMap' => [
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationNamespaces' => [
+                'ssoft\livecontent\migrations'
+            ],
+        ],
+    ],
 ];
 ```
 
