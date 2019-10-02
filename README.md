@@ -10,7 +10,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-composer require --prefer-dist sergeykoz/yii2-livecontent:0.0.1
+composer require --prefer-dist sergeykoz/yii2-livecontent:0.1.0
 ```
 
 or add
